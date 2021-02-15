@@ -1,0 +1,35 @@
+Production/Actions
+S3
+S4
+S8
+S9
+R10: F -> id
+R8: T -> F
+S14
+S9
+R10: F -> id
+R6: T -> T * F
+R5: E -> T
+S21
+R9: F -> ( E )
+R8: T -> F
+R5: E -> T
+S12
+S9
+R10: F -> id
+R8: T -> F
+R3: E -> E + T
+S13
+S9
+R10: F -> id
+R8: T -> F
+S15
+S9
+R10: F -> id
+R7: T -> T / F
+R4: E -> E - T
+S11
+R2: A -> id = E;
+R1: S -> A
+Finish Parsing
+Accept

@@ -1,0 +1,23 @@
+1 	 PUSHI 	 0
+2 	 POPM 	 2000
+3 	 PUSHI 	 15
+4 	 POPM 	 2001
+5 	 PUSHI 	 1
+6 	 POPM 	 2003
+7 	 PUSHI 	 0
+8 	 POPM 	 2003
+9 	 PUSHI 	 0
+10 	 PUSHI 	 1
+11 	 EQU 	 
+12 	 JUMPZ 	 15
+13 	 PUSHM 	 2000
+14 	 POPM 	 2002
+15 	 PUSHM 	 2001
+16 	 POPM 	 2002
+
+Symbol Table
+Identifier	MemoryLocation	Type
+num 		 2000 		 integer
+nu2m 		 2001 		 integer
+large$ 		 2002 		 integer
+hey 		 2003 		 boolean

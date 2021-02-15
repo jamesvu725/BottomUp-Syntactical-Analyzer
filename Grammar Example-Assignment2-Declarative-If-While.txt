@@ -1,0 +1,43 @@
+Grammmar for CPSC323 - Anthony Le
+Assignment2:
+
+---For the 1st Iteration:
+<Statement> -> <Assign>
+<Assign> -> <id> = <Expression>;
+
+<Expression> -> <Expression> + <Term> | <Expression> - <Term> | <Term>
+
+<Term> -> <Term> * <Factor> | <Term> / <Factor> | <Factor>
+
+<Factor> -> ( <Expression> ) | <id> | <num>
+*the num rule is OPTIONAL
+
+
+---For the second iteration the Declarative Grammar can be:
+Declarative type of statements:
+<Statement> -> <Declarative>
+<Declarative> -> <Type> <id> <MoreIds>;
+�������������	| <empty>
+<Type> -> int | float | bool
+<MoreIds> -> , <id> <MoreIds>
+������������	| <empty>
+
+
+---For the 3rd Iteration the If-While Grammar can be:
+<Statement> -> <Assign> �|  <Declarative>
+		| if <Conditional> then <Statement> else <Statement> endif
+		| while <Expression> do <Statement> whileend
+		| begin <Statement> <MoreStatements> end
+<MoreStatements> -> ; <Statement> <MoreStatements>
+��������������	| <empty>
+<Conditional> -> <Expression> <Relop> <Expression>
+�������		| <Expression>
+<Relop> -> < | <= | == | <> | >= | >
+
+
+<Statement> -> <Declarative>
+<Declarative> -> <Type> <id> <MoreIds>;
+�������������	| <empty>
+<Type> -> int | float | bool
+<MoreIds> -> , <id> <MoreIds>
+������������	| <empty>

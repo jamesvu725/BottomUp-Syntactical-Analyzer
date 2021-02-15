@@ -1,0 +1,266 @@
+Place $ at the end of the input string
+Push state 0 on to the stack
+Repeat
+  Let qm be the current state (TOS state) and i the token
+  Find x = Table [Qm, i];
+  Case x of
+    S(Qn): Push (i) and enter qn, i.e., push (Qn);
+    R(n):  Reduce by production #n by popping  2x # of RHS symbols
+      Let Qj be the TOS state
+      Push  the LHS  L onto the stack
+      Push Qk= Table [Qj, L] onto the stack
+    ACCT: Parsing is complete
+    Empty:  error condition
+Until  ACCT or Error
+
+
+
+
+Rules:
+R0:  S' -> S
+R1:  S  -> A
+R2:  A  -> id = E;
+R3:  E  -> E + T
+R4:  E  -> E - T
+R5:  E  -> T
+R6:  T  -> T * F
+R7:  T  -> T / F
+R8:  T  -> F
+R9:  F  -> ( E )
+R10: F  -> id
+R11: F  -> num
+
+First (S) = { id }
+First (A) = { id }
+First (E) = { (, id, num }
+First (T) = { (, id, num }
+First (F) = { (, id, num }
+Follow (S) = { $ }
+Follow (A) = { $ }
+Follow (E) = { +, -, ;, ) }
+Follow (T) = { *, /, +, -, ;, ) }
+Follow (F) = { *, /, +, -, ;, ) }
+
+State 0
+i0 = ( [S' -> .S] ) = { [S' -> .S],
+                        [S -> .A],
+                        [A -> .id = E ; ] }
+
+Transition from State 0
+i1 = N(i0, S)  = { [S' -> S.] }
+i2 = N(i0, A)  = { [S  -> A.] }
+i3 = N(i0, id) = { [A  -> id .= E ; ] }
+
+Transition from State 1
+{ [S' -> S.] } = { }
+
+Transition from State 2
+{ [S  -> A.] } = { }
+
+Transition from State 3
+i4 = N(i3, =) = { [A -> id = .E ; ],
+                  [E -> .E + T],
+                  [E -> .E - T],
+                  [E -> .T],
+                  [T -> .T * F],
+                  [T -> .T / F],
+                  [T -> .F],
+                  [F -> .( E )],
+                  [F -> .id],
+                  [F -> .num] }
+
+Transition from State 4
+i5  = N(i4, E)   = { [A -> id = E .; ],
+                     [E -> E .+ T],
+                     [E -> E .- T] }
+i6  = N(i4, T)   = { [E -> T.],
+                     [T -> T .* F],
+                     [T -> T ./ F] }
+i7  = N(i4, F)   = { [T -> F.] }
+i8  = N(i4, ()   = { [F -> ( .E )],
+                     [E -> .E + T],
+                     [E -> .E - T],
+                     [E -> .T],
+                     [T -> .T * F],
+                     [T -> .T / F],
+                     [T -> .F],
+                     [F -> .( E )],
+                     [F -> .id],
+                     [F -> .num] }
+i9  = N(i4, id)  = { [F -> id.] }
+i10 = N(i4, num) = { [F -> num.] }
+
+Transition from State 5
+i11 = N(i5, ;) = { [A -> id = E ;.] }
+i12 = N(i5, +) = { [E -> E + .T],
+                   [T -> .T * F],
+                   [T -> .T / F],
+                   [T -> .F],
+                   [F -> .( E )],
+                   [F -> .id],
+                   [F -> .num] }
+i13 = N(i5, -) = { [E -> E - .T],
+                   [T -> .T * F],
+                   [T -> .T / F],
+                   [T -> .F],
+                   [F -> .( E )],
+                   [F -> .id],
+                   [F -> .num] }
+
+Transition from State 6
+{ [E -> T.] }  = { }
+i14 = N(i6, *) = { [T -> T * .F],
+                   [F -> .( E )],
+                   [F -> .id],
+                   [F -> .num] }
+i15 = N(i6, /) = { [T -> T / .F],
+                   [F -> .( E )],
+                   [F -> .id],
+                   [F -> .num] }
+
+Transition from State 7
+{ [T -> F.] } = { }
+
+Transition from State 8
+i16 = N(i8, E)   = { [F -> ( E .)],
+                     [E -> E .+ T],
+                     [E -> E .- T] }
+i6  = N(i8, T)   = { [E -> T.],
+                     [T -> T .* F],
+                     [T -> T ./ F] }
+i7  = N(i8, F)   = { [T -> F.] }
+i8  = N(i8, ()   = { [F -> ( .E )],
+                     [E -> .E + T],
+                     [E -> .E - T],
+                     [E -> .T],
+                     [T -> .T * F],
+                     [T -> .T / F],
+                     [T -> .F],
+                     [F -> .( E )],
+                     [F -> .id],
+                     [F -> .num] }
+i9  = N(i8, id)  = { [F -> id.] }
+i10 = N(i8, num) = { [F -> num.] }
+
+Transition from State 9
+{ [F -> id.] } = { }
+
+Transition from State 10
+{ [F -> num.] } = { }
+
+Transition from State 11
+{ [A -> id = E ;.] } = { }
+
+Transition from State 12
+i17 = N(i12, T)   = { [E -> E + T.],
+                      [T -> T .* F],
+                      [T -> T ./ F] }
+i7  = N(i12, F)   = { [T -> F.]}
+i8  = N(i12, ()   = { [F -> ( .E )],
+                      [E -> .E + T],
+                      [E -> .E - T],
+                      [E -> .T],
+                      [T -> .T * F],
+                      [T -> .T / F],
+                      [T -> .F],
+                      [F -> .( E )],
+                      [F -> .id],
+                      [F -> .num] }
+i9  = N(i12, id)  = { [F -> id.] }
+i10 = N(i12, num) = { [F -> num.] }
+
+Transition from State 13
+i18 = N(i13, T)   = { [E -> E - T.],
+                      [T -> T .* F],
+                      [T -> T ./ F] }
+i7  = N(i13, F)   = { [T -> F.]}
+i8  = N(i13, ()   = { [F -> ( .E )],
+                      [E -> .E + T],
+                      [E -> .E - T],
+                      [E -> .T],
+                      [T -> .T * F],
+                      [T -> .T / F],
+                      [T -> .F],
+                      [F -> .( E )],
+                      [F -> .id],
+                      [F -> .num] }
+i9  = N(i13, id)  = { [F -> id.] }
+i10 = N(i13, num) = { [F -> num.] }
+
+Transition from State 14
+i19 = N(i14, F) = { T -> T * F. }
+i8  = N(i14, ()   = { [F -> ( .E )],
+                      [E -> .E + T],
+                      [E -> .E - T],
+                      [E -> .T],
+                      [T -> .T * F],
+                      [T -> .T / F],
+                      [T -> .F],
+                      [F -> .( E )],
+                      [F -> .id],
+                      [F -> .num] }
+i9  = N(i14, id)  = { [F -> id.] }
+i10 = N(i14, num) = { [F -> num.] }
+
+Transition from State 15
+i20 = N(i15, F) = { T -> T / F. }
+i8  = N(i15, ()   = { [F -> ( .E )],
+                      [E -> .E + T],
+                      [E -> .E - T],
+                      [E -> .T],
+                      [T -> .T * F],
+                      [T -> .T / F],
+                      [T -> .F],
+                      [F -> .( E )],
+                      [F -> .id],
+                      [F -> .num] }
+i9  = N(i15, id)  = { [F -> id.] }
+i10 = N(i15, num) = { [F -> num.] }
+
+Transition from State 16
+i21 = N(i16, )) = { [F -> ( E ).] }
+i12 = N(i16, +) = { [E -> E + .T],
+                    [T -> .T * F],
+                    [T -> .T / F],
+                    [T -> .F],
+                    [F -> .( E )],
+                    [F -> .id],
+                    [F -> .num] }
+i13 = N(i16, -) = { [E -> E - .T],
+                    [T -> .T * F],
+                    [T -> .T / F],
+                    [T -> .F],
+                    [F -> .( E )],
+                    [F -> .id],
+                    [F -> .num] }
+
+Transition from State 17
+{ [E -> E + T.] }  = { }
+i14 = N(i17, *) = { [T -> T * .F],
+                    [F -> .( E )],
+                    [F -> .id],
+                    [F -> .num] }
+i15 = N(i17, /) = { [T -> T / .F],
+                    [F -> .( E )],
+                    [F -> .id],
+                    [F -> .num] }
+
+Transition from State 18
+{ [E -> E - T.] } = { }
+i14 = N(i18, *) = { [T -> T * .F],
+                    [F -> .( E )],
+                    [F -> .id],
+                    [F -> .num] }
+i15 = N(i18, /) = { [T -> T / .F],
+                    [F -> .( E )],
+                    [F -> .id],
+                    [F -> .num] }
+
+Transition from State 19
+{ T -> T * F. } = { }
+
+Transition from State 20
+{ T -> T / F. } = { }
+
+Transition from State 21
+{ [F -> ( E ).] } = { }
